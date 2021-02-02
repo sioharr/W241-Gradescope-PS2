@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Set up autograder files
+cp -r /autograder/submission/. /autograder/source/
+
+cd /autograder/source/questions/
+
+Rscript ../autograde_ps2.R 
