@@ -4,5 +4,8 @@
 cp -r /autograder/submission/. /autograder/source/
 
 cd /autograder/source/questions/
+touch ../ps2.Rmd
 
 Rscript ../autograde_ps2.R 
+
+
