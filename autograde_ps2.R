@@ -22,10 +22,11 @@ library(sandwich)
 library(lmtest)
 library(ggplot2)
 library(knitr)
+library(round)
+library(stargazer)
 
-
-knitr::purl("../ps2.Rmd")
-source("ps2.R")
+#knitr::purl("../ps2.Rmd")
+#source("ps2.R")
 
 knitr::purl("question_1.Rmd")
 source("question_1.R")
@@ -36,8 +37,8 @@ source("question_2.R")
 knitr::purl("question_3.Rmd")
 source("question_3.R")
 
-knitr::purl("question_4.Rmd")
-source("question_4.R")
+#knitr::purl("question_4.Rmd")
+#source("question_4.R")
 
 
 
@@ -272,11 +273,21 @@ i<-6
   'Q1 - Is larger number correct?', { 
     expect_equal(
       object    = hajj_count_larger,
+      expected  = sum(hajj_ri_distribution >= hajj_ate), 
+      tolerance = 0.01)
+    })
+
+
+  test_that_var2 <- test_that(
+  'Q1 - Is larger number correct?', { 
+    expect_equal(
+      object    = hajj_count_larger,
       expected  = sum(hajj_ri_distribution > hajj_ate), 
       tolerance = 0.01)
     })
 
-  if(test_that_var == TRUE){
+
+  if(test_that_var == TRUE || test_that_var2 == TRUE){
       cur.score <-  cur.weight
       cur.output <- "Test passed\n"
   }else{
@@ -296,8 +307,8 @@ i<-7
   'Q1 - Is p-value derived from number larger?', { 
     expect_equal(
       object    = hajj_one_tailed_p_value, 
-      expected  = mean(hajj_ri_distribution > hajj_ate), 
-      tolerange = 0.01)
+      expected  = mean(hajj_ri_distribution >= hajj_ate), 
+      tolerance = 0.1)
   })
 
   if(test_that_var == TRUE){
@@ -492,13 +503,15 @@ i<-15
 test_that_var <- test_that(
   'Q3. Is the cards ri distribution reasonable?', { 
     expect_vector(ri_distribution)
-    expect_equal(length(ri_distribution), 1000, .001)
+    expect_gt(
+        object = length(ri_distribution), 
+        expected = 99)
     expect_lt(
       object    = abs(quantile(ri_distribution, 0.025)), 
-      expected  = 9.25)
+      expected  = 10)
     expect_gt(
       object    = abs(quantile(ri_distribution, 0.025)), 
-      expected = 8.75)
+      expected = 8)
     })
 
 
